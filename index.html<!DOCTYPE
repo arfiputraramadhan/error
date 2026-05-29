@@ -1,0 +1,213 @@
+html>
+<html lang="id">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Transaction Declined / Failed</title>
+ 
+ <script src="https://cdn.tailwindcss.com"></script>
+ <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+ <style>
+ body { font-family: 'Plus Jakarta Sans', sans-serif; }
+ .font-mono { font-family: 'JetBrains Mono', sans-serif; }
+
+ /* Cyberpunk Fintech Grid Background */
+ .premium-bg {
+ background-color: #0c0809;
+ background-image: 
+ linear-gradient(rgba(48, 18, 22, 0.25) 1px, transparent 1px),
+ linear-gradient(90deg, rgba(48, 18, 22, 0.25) 1px, transparent 1px);
+ background-size: 40px 40px;
+ background-position: center;
+ }
+
+ /* Ambient Glowing Crimson Orb */
+ .orb-crimson {
+ position: absolute;
+ width: 600px;
+ height: 600px;
+ border-radius: 50%;
+ background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, transparent 70%);
+ filter: blur(80px);
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ pointer-events: none;
+ animation: pulseOrb 6s infinite alternate ease-in-out;
+ }
+
+ @keyframes pulseOrb {
+ 0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.12; }
+ 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; }
+ }
+
+ /* Premium Glow Card Border */
+ .glow-card-error {
+ background: linear-gradient(135deg, rgba(28, 16, 19, 0.9) 0%, rgba(12, 8, 9, 0.95) 100%);
+ border: 1px solid rgba(239, 68, 68, 0.15);
+ box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 50px rgba(239, 68, 68, 0.03);
+ position: relative;
+ }
+
+ .glow-card-error::before {
+ content: '';
+ position: absolute;
+ inset: -1px;
+ border-radius: 24px;
+ padding: 1px;
+ background: linear-gradient(to bottom right, rgba(239, 68, 68, 0.3), transparent, rgba(255, 255, 255, 0.02));
+ -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+ -webkit-mask-composite: xor;
+ mask-composite: exclude;
+ pointer-events: none;
+ }
+
+ /* Error Shake & Glitch Trigger */
+ @keyframes subtleShake {
+ 0%, 100% { transform: translateX(0); }
+ 20%, 60% { transform: translateX(-4px); }
+ 40%, 80% { transform: translateX(4px); }
+ }
+ .animate-shake {
+ animation: subtleShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+ }
+
+ /* Shimmer Scan Line Effect */
+ .shimmer-red {
+ background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.04), transparent);
+ background-size: 200% 100%;
+ animation: shimmerEffect 2.5s infinite linear;
+ }
+
+ @keyframes shimmerEffect {
+ 0% { background-position: -200% 0; }
+ 100% { background-position: 200% 0; }
+ }
+ </style>
+</head>
+<body class="premium-bg min-h-screen flex items-center justify-center p-4 text-white relative overflow-hidden">
+
+ <div class="orb-crimson"></div>
+
+ <div id="loading-state" class="text-center z-10 transition-all duration-500">
+ <div class="relative w-16 h-16 mx-auto mb-6">
+ <div class="absolute inset-0 rounded-full border-4 border-rose-950/40"></div>
+ <div class="absolute inset-0 rounded-full border-4 border-t-rose-500 border-r-amber-500 animate-spin"></div>
+ </div>
+ <p class="text-xs font-mono tracking-[0.3em] text-rose-400/70 uppercase animate-pulse">Verifying Transaction Token...</p>
+ </div>
+
+ <div id="main-card" class="glow-card-error w-full max-w-lg rounded-3xl p-8 md:p-10 hidden z-10 opacity-0 transform translate-y-8 transition-all duration-700 ease-out">
+ 
+ <div class="flex justify-between items-center mb-8 pb-4 border-b border-rose-950/40">
+ <div class="flex items-center gap-2">
+ <span class="relative flex h-2 w-2">
+ <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+ <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+ </span>
+ <span class="text-[10px] font-mono uppercase tracking-widest text-rose-400/80">CORE_STATUS: REJECTED</span>
+ </div>
+ <div class="text-[10px] font-mono px-2 py-1 bg-rose-950/30 rounded border border-rose-900/40 text-rose-400">
+ ERR_AUTH_402
+ </div>
+ </div>
+
+ <div class="text-center mb-8">
+ <div class="mx-auto w-20 h-20 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center relative overflow-hidden animate-shake">
+ <div class="absolute inset-1.5 border border-dashed border-rose-500/20 rounded-xl"></div>
+ 
+ <svg class="w-9 h-9 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+ </svg>
+ </div>
+ 
+ <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight mt-5 text-slate-100">Pembayaran Gagal</h1>
+ <p class="text-xs text-slate-400 mt-1.5 max-w-sm mx-auto leading-relaxed">
+ Koneksi aman terputus atau otorisasi kartu/metode bayar Anda ditolak oleh bank penerbit.
+ </p>
+ </div>
+
+ <div class="bg-black/50 rounded-2xl p-5 border border-rose-950/80 relative group overflow-hidden">
+ <div class="absolute inset-0 shimmer-red pointer-events-none"></div>
+ 
+ <div class="flex justify-between items-center mb-3">
+ <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-rose-400/60 font-bold">Trace Reference ID</span>
+ <span class="text-[9px] font-mono text-rose-400 bg-rose-500/10 px-1.5 py-0.5 rounded border border-rose-500/20 uppercase tracking-wider">Failed State</span>
+ </div>
+
+ <div class="flex items-center justify-between gap-3 bg-neutral-900/70 p-3.5 rounded-xl border border-rose-950/60">
+ <p id="order-id-text" class="text-lg md:text-xl font-mono font-bold text-rose-100 select-all tracking-wide break-all">
+ FETCHING_ID_ERR
+ </p>
+ 
+ <button id="copy-btn" class="p-2 bg-neutral-800 hover:bg-neutral-700 active:scale-95 text-slate-300 hover:text-white rounded-lg border border-neutral-700 transition duration-200" title="Copy Order ID">
+ <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+ </svg>
+ </button>
+ </div>
+
+ <div class="mt-4 pt-4 border-t border-rose-950/40 flex items-center justify-between opacity-30 group-hover:opacity-50 transition-opacity duration-300">
+ <div class="flex gap-[2px] h-4 items-center">
+ <div class="w-1 h-full bg-rose-400"></div><div class="w-[2px] h-full bg-rose-400"></div><div class="w-3 h-full bg-rose-400"></div><div class="w-[1px] h-full bg-rose-400"></div><div class="w-2 h-full bg-rose-400"></div>
+ </div>
+ <span class="text-[9px] font-mono text-rose-300">SIG_REJECT_ROLLBACK</span>
+ </div>
+ </div>
+
+ <div class="mt-8 text-center">
+ <p class="text-[10px] font-mono text-slate-600">Secure automated failure callback &bull; Midtrans Snap Engine &bull; 2026</p>
+ </div>
+ </div>
+
+ <div id="toast" class="fixed bottom-6 bg-neutral-900 border border-rose-900/50 text-slate-200 text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50 font-mono">
+ <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+ </svg>
+ Order ID successfully copied!
+ </div>
+
+ <script>
+ document.addEventListener('DOMContentLoaded', () => {
+ // Mengambil Order ID dari URL Parameter (?order_id=INV-XXXXX)
+ const urlParams = new URLSearchParams(window.location.search);
+ const orderId = urlParams.get('order_id') || 'MID-ERR-UNSPECIFIED';
+
+ const loadingState = document.getElementById('loading-state');
+ const mainCard = document.getElementById('main-card');
+ const orderText = document.getElementById('order-id-text');
+
+ // Inject Data ID
+ orderText.textContent = orderId;
+
+ // Simulasi loading 1.2 detik biar UI terkesan memproses sistem enkripsi berat
+ setTimeout(() => {
+ loadingState.classList.add('opacity-0', 'scale-95');
+ 
+ setTimeout(() => {
+ loadingState.style.display = 'none';
+ 
+ // Reveal Card dengan transisi smooth nan mewah
+ mainCard.classList.remove('hidden');
+ setTimeout(() => {
+ mainCard.classList.remove('opacity-0', 'translate-y-8');
+ }, 50);
+ }, 400);
+ }, 1200);
+
+ // Logika Tombol Copy Clipboard
+ document.getElementById('copy-btn').addEventListener('click', () => {
+ navigator.clipboard.writeText(orderText.textContent.trim()).then(() => {
+ const toast = document.getElementById('toast');
+ toast.classList.remove('translate-y-20', 'opacity-0');
+ 
+ setTimeout(() => {
+ toast.classList.add('translate-y-20', 'opacity-0');
+ }, 2500);
+ });
+ });
+ });
+ </script>
+</body>
+</html>
